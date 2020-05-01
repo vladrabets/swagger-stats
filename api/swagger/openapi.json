@@ -1,0 +1,209 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "FP Order service",
+    "version" : "0.0.4"
+  },
+  "servers" : [ {
+    "url" : "http://localhost:10011/api/v1"
+  }, {
+    "url" : "https://localhost:10011/api/v1"
+  } ],
+  "paths" : {
+    "/search/podcasts" : {
+      "get" : {
+        "description" : "List of podcasts types to listen",
+        "operationId" : "listPodcasts",
+        "parameters" : [ {
+          "name" : "Podcast Name",
+          "in" : "query",
+          "description" : "Podcast's name",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "Description",
+          "in" : "query",
+          "description" : "Description of the podcast",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "Page",
+          "in" : "query",
+          "description" : "Page to iterate, 1 is default",
+          "schema" : {
+            "type" : "number"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/PodcastNeeds"
+                  }
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "x-swagger-router-controller" : "orders"
+    },
+    "//search/podcastsTypes" : {
+      "get" : {
+        "description" : "List of podcasts to listen",
+        "operationId" : "listPodcastsTypes",
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/PodcastType"
+                  }
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "x-swagger-router-controller" : "orders"
+    },
+    "/search/channels" : {
+      "get" : {
+        "description" : "List of the channels",
+        "operationId" : "listChannels",
+        "parameters" : [ {
+          "name" : "Theme of the Podcasts",
+          "in" : "query",
+          "description" : "The theme of the podcast type for filtering",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Channel"
+                  }
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "x-swagger-router-controller" : "orders"
+    },
+    "/swagger" : {
+      "x-swagger-pipe" : "swagger_raw"
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "Channel" : {
+        "required" : [ "name" ],
+        "type" : "object",
+        "properties" : {
+          "ChannelName" : {
+            "type" : "string"
+          },
+          "photo" : {
+            "type" : "string"
+          },
+          "Podcasts" : {
+            "type" : "array",
+            "description" : "Podcasts of this channel",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        }
+      },
+      "PodcastNeeds" : {
+        "required" : [ "id" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "takeOffId" : {
+            "type" : "number"
+          },
+          "podcastType" : {
+            "type" : "string"
+          },
+          "date" : {
+            "type" : "string"
+          },
+          "status" : {
+            "type" : "string",
+            "description" : "new | old"
+          }
+        }
+      },
+      "PodcastType" : {
+        "required" : [ "id" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          }
+        }
+      },
+      "ErrorResponse" : {
+        "required" : [ "message" ],
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string"
+          }
+        }
+      }
+    }
+  }
+}

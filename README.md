@@ -1,1 +1,1 @@
-# swagger-stats
+# Skeleton project for Swagger
